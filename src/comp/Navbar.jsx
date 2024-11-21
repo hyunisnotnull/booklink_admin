@@ -5,7 +5,6 @@ import '../css/Navbar.css';
 
 const Navbar = () => {
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
 
   const handleLibraryUpdate = async () => {
     try {
@@ -21,7 +20,7 @@ const Navbar = () => {
 
     } finally {
       setLoading(false); // 요청 완료 후 로딩 상태 해제
-      
+
     }
   };
 
@@ -35,9 +34,9 @@ const Navbar = () => {
           <Link to="/event">배너 관리</Link>
         </li>
         <li className="nav-item">
-          <button onClick={handleLibraryUpdate} disabled={loading}>
+        <a href="#none" onClick={handleLibraryUpdate} className="update-link" disabled={loading}>
             {loading ? '업데이트 중...' : '도서관 업데이트'}
-          </button>
+          </a>
         </li>
       </ul>
     </nav>

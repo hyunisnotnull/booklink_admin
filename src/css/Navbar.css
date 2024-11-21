@@ -25,3 +25,14 @@
 .nav-item a:hover {
   text-decoration: underline;
 }
+
+.nav-item .update-link {
+  cursor: pointer;
+  text-decoration: none;
+  color: #007bff; /* 링크 색상 */
+}
+
+.nav-item .update-link:disabled {
+  color: grey;
+  cursor: not-allowed;
+}
