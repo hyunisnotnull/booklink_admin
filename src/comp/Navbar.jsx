@@ -13,12 +13,15 @@ const Navbar = () => {
       const response = await axios.post(`${process.env.REACT_APP_SERVER}/library`); // POST 요청
 
       // 서버에서 응답 메시지 처리
-      setMessage(response.data.message);
+      alert(response.data.message);
+
     } catch (error) {
-      setMessage('도서관 데이터 업데이트 실패');
+      alert('도서관 데이터 업데이트 실패');
       console.error('Error updating library:', error);
+
     } finally {
       setLoading(false); // 요청 완료 후 로딩 상태 해제
+      
     }
   };
 
@@ -37,7 +40,6 @@ const Navbar = () => {
           </button>
         </li>
       </ul>
-      {message && <p>{message}</p>}  {/* 메시지 표시 */}
     </nav>
   );
 };
