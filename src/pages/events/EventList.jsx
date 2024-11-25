@@ -68,14 +68,14 @@ const EventList = ({ sortOrder }) => {
         </thead>
         <tbody>
             {events.map((event) => {
-                const endDate = new Date(event.e_end_date);  // 키 수정
+                const endDate = new Date(event.e_end_date);  
                 const isExpired = endDate < new Date();
                 return (
-                <tr key={event.e_no}>  {/* key 값도 수정 */}
+                <tr key={event.e_no}>  
                     <td>{event.e_title}</td>  {/* 이벤트 제목 */}
                     <td>
                     <img
-                        src={`/${event.e_no}/${event.e_image}`} 
+                        src={`/${event.e_image}`} 
                         alt={event.e_title}
                         width="100"
                     />
