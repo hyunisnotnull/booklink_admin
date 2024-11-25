@@ -6,6 +6,7 @@ import Footer from './comp/Footer';
 import Home from './pages/Home';
 import EventList from './pages/events/EventList';
 import EventRegister from './pages/events/RegistEvent';
+import EventModifyForm from './pages/events/ModifyEvent';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/event" element={<EventList />} />
         <Route path="/event/register_event_form" element={<EventRegister />} />
+        <Route path="/event/modify_event_from/:id" element={<EventModifyForm />} />
       </Routes>
 
       <Footer />
