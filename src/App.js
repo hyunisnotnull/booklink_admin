@@ -4,6 +4,8 @@ import Header from './comp/Header';
 import Navbar from './comp/Navbar';
 import Footer from './comp/Footer';
 import Home from './pages/Home';
+import EventList from './pages/events/EventList';
+import EventRegister from './pages/events/RegistEvent';
 
 const App = () => {
   return (
@@ -13,7 +15,8 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* 다른 페이지를 추가하려면 여기에 Route를 추가 */}
+        <Route path="/event" element={<EventList />} />
+        <Route path="/event/register_event_form" element={<EventRegister />} />
       </Routes>
 
       <Footer />
