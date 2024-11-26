@@ -174,8 +174,8 @@ const EventModifyForm = () => {
           />
         </div>  
         <div className="button-container">
-          <button type="submit">수정하기</button>
-          <button type="button" onClick={() => navigate('/event')}>목록으로</button>
+          <button type="submit" id="submitButton">이벤트 수정</button>
+          <button type="button" onClick={() => navigate('/event')} id="cancelButton">이벤트 목록</button>
         </div>
       </form>
     </div>
