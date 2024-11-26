@@ -3,9 +3,9 @@ import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useNavigate } from 'react-router-dom';
+import '../../css/events/RegistEvent.css';
 
 const EventRegister = () => {
-  // 폼 데이터를 관리할 상태 변수들
   const [title, setTitle] = useState('');
   const [eventImage, setEventImage] = useState('');
   const [url, setUrl] = useState('');
@@ -14,11 +14,28 @@ const EventRegister = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+
+  // 한국 시간
+  const currentDateTime = new Date();
+  currentDateTime.setHours(currentDateTime.getHours() + 9); 
+  const formattedCurrentDateTime = currentDateTime.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:MM"
 
   // 폼 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 종료일이 시작일보다 뒤인지 확인
+    if (new Date(startDate) >= new Date(endDate)) {
+      alert('종료일은 시작일보다 뒤여야 합니다.'); 
+      return;
+    }
+
+    // 시작일이 현재 시간보다 뒤인지 확인
+    if (new Date(startDate) < new Date(formattedCurrentDateTime)) {
+      alert('시작일은 현재 시간 이후여야 합니다.');  
+      return;
+    }
 
     const formData = new FormData();
     formData.append('title', title);
@@ -52,10 +69,13 @@ const EventRegister = () => {
   };
 
   return (
-    <div>
+    <div className="event-register-container">
       <h4>이벤트 등록</h4>
+      <hr/>
+      <br/>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>
+          <small>이벤트의 제목을 입력하세요.</small>
           <input
             type="text"
             name="title"
@@ -64,18 +84,18 @@ const EventRegister = () => {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-          <small>이벤트의 제목을 입력하세요.</small>
         </div>
         <div>
+          <small>이벤트에 사용될 이미지를 선택하세요.</small>
           <input
             type="file"
             name="event_image"
             onChange={(e) => setEventImage(e.target.files[0])}
             required
           />
-          <small>이벤트에 사용될 이미지를 선택하세요.</small>
         </div>
         <div>
+          <small>이벤트 이동 URL을 입력하세요.</small>
           <input
             type="text"
             name="url"
@@ -84,9 +104,9 @@ const EventRegister = () => {
             onChange={(e) => setUrl(e.target.value)}
             required
           />
-          <small>이벤트 이동 URL을 입력하세요.</small>
         </div>
         <div>
+          <small>이벤트 사용처를 선택하세요.</small>
           <select
             name="e_active"
             value={eActive}
@@ -97,7 +117,6 @@ const EventRegister = () => {
             <option value="1">배너광고(홈)</option>
             <option value="3">자체광고(로그인/회원가입)</option>
           </select>
-          <small>이벤트 사용처를 선택하세요.</small>
         </div>
         <div>
           <label>이벤트 설명</label>
@@ -109,27 +128,28 @@ const EventRegister = () => {
               setDescription(data);  // CKEditor에서 받은 데이터를 상태에 저장
             }}
           />
-          <small>이벤트에 대한 설명을 입력하세요.</small>
         </div>
         <div>
+          <small>이벤트 시작 날짜와 시간을 선택하세요.</small>
           <input
             type="datetime-local"
             name="startDate"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             required
+            min={formattedCurrentDateTime}  // 시작일은 현재 한국 시간 이후만 선택 가능
           />
-          <small>이벤트 시작 날짜와 시간을 선택하세요.</small>
         </div>
         <div>
+          <small>이벤트 종료 날짜와 시간을 선택하세요.</small>
           <input
             type="datetime-local"
             name="endDate"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             required
+            min={startDate}  // 종료일은 시작일 이후로만 선택 가능
           />
-          <small>이벤트 종료 날짜와 시간을 선택하세요.</small>
         </div>
         <button type="submit">이벤트 등록</button>
       </form>
