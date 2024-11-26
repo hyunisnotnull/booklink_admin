@@ -18,7 +18,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/event" element={<EventList />} />
         <Route path="/event/register_event_form" element={<EventRegister />} />
-        <Route path="/event/modify_event_from/:id" element={<EventModifyForm />} />
+        <Route path="/event/modify_event_form/:eventId" element={<EventModifyForm />} />
       </Routes>
 
       <Footer />

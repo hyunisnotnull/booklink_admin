@@ -3,8 +3,11 @@ import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useParams, useNavigate } from 'react-router-dom';
+import '../../css/events/RegistEvent.css';
 
 const EventModifyForm = () => {
+  const { eventId } = useParams();
+
   // 폼 데이터를 관리할 상태 변수들
   const [title, setTitle] = useState('');
   const [eventImage, setEventImage] = useState('');
@@ -16,22 +19,26 @@ const EventModifyForm = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { eventId } = useParams();  // URL 파라미터로 이벤트 ID 받기
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
+
+  // 한국 시간
+  const currentDateTime = new Date();
+  currentDateTime.setHours(currentDateTime.getHours() + 9); 
+  const formattedCurrentDateTime = currentDateTime.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:MM"
 
   // 수정할 이벤트 데이터를 가져오기
   useEffect(() => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_SERVER}/event/modify_event_form/${eventId}`);
-        const data = response.data;
-        setTitle(data.e_title);
-        setEventImage(data.e_image);  // 파일이 아닌 경우, 서버에서 받아온 이미지 URL
-        setUrl(data.e_url);
-        setEActive(data.e_active);
-        setDescription(data.e_desc);
-        setStartDate(data.e_start_date);
-        setEndDate(data.e_end_date);
+        const data = response.data.eventData;
+        setTitle(data.e_title || '');
+        setEventImage(data.e_image || '');
+        setUrl(data.e_url || '');
+        setEActive(data.e_active || '');
+        setDescription(data.e_desc || '');
+        setStartDate(data.e_start_date || '');
+        setEndDate(data.e_end_date || '');
       } catch (error) {
         setError('이벤트 데이터를 가져오는 데 실패했습니다.');
       } finally {
@@ -69,7 +76,7 @@ const EventModifyForm = () => {
 
       if (response.status === 200) {
         alert('이벤트가 수정되었습니다.');
-        navigate('/event/list');  // 수정 후 목록으로 리다이렉트
+        navigate('/event');  // 수정 후 목록으로 리다이렉트
       }
     } catch (error) {
       console.error('Error modifying event:', error);
@@ -86,10 +93,13 @@ const EventModifyForm = () => {
   }
 
   return (
-    <div>
+    <div className="event-register-container">
       <h4>이벤트 수정</h4>
+      <hr/>
+      <br/>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>
+          <small>이벤트의 제목을 입력하세요.</small>
           <input
             type="text"
             name="title"
@@ -98,18 +108,17 @@ const EventModifyForm = () => {
             onChange={(e) => setTitle(e.target.value)}
             required
           />
-          <small>이벤트의 제목을 입력하세요.</small>
         </div>
         <div>
+          <small>이벤트에 사용될 이미지를 선택하거나 변경하세요.</small>
           <input
             type="file"
             name="event_image"
             onChange={(e) => setEventImage(e.target.files[0])}
           />
-          {eventImage && <img src={eventImage} alt="현재 이미지" width="100" />}
-          <small>이벤트에 사용될 이미지를 선택하거나 변경하세요.</small>
         </div>
         <div>
+          <small>이벤트 이동 URL을 입력하세요.</small>
           <input
             type="text"
             name="url"
@@ -118,9 +127,9 @@ const EventModifyForm = () => {
             onChange={(e) => setUrl(e.target.value)}
             required
           />
-          <small>이벤트 이동 URL을 입력하세요.</small>
         </div>
         <div>
+          <small>이벤트 사용처를 선택하세요.</small>
           <select
             name="e_active"
             value={eActive}
@@ -130,7 +139,6 @@ const EventModifyForm = () => {
             <option value="1">배너광고(홈)</option>
             <option value="3">자체광고(로그인/회원가입)</option>
           </select>
-          <small>이벤트 사용처를 선택하세요.</small>
         </div>
         <div>
           <label>이벤트 설명</label>
@@ -142,31 +150,34 @@ const EventModifyForm = () => {
               setDescription(data);  // CKEditor에서 받은 데이터를 상태에 저장
             }}
           />
-          <small>이벤트에 대한 설명을 입력하세요.</small>
         </div>
         <div>
+        <small>이벤트 시작 날짜와 시간</small>
           <input
             type="datetime-local"
             name="startDate"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
             required
+            disabled  // 시작일은 변경할 수 없도록 비활성화
           />
-          <small>이벤트 시작 날짜와 시간을 선택하세요.</small>
         </div>
         <div>
+          <small>이벤트 종료 날짜와 시간을 선택하세요.</small>
           <input
             type="datetime-local"
             name="endDate"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
             required
+            min={formattedCurrentDateTime}  // 종료일은 한국 시간 이후만 선택 가능
           />
-          <small>이벤트 종료 날짜와 시간을 선택하세요.</small>
+        </div>  
+        <div className="button-container">
+          <button type="submit">수정하기</button>
+          <button type="button" onClick={() => navigate('/event')}>목록으로</button>
         </div>
-        <button type="submit">수정하기</button>
       </form>
-      <button onClick={() => navigate('/event/list')}>목록으로</button>
     </div>
   );
 };
