@@ -2,118 +2,134 @@
 
 /* 전체 레이아웃 설정 */
 .event-register-container {
-    max-width: 800px;
-    margin: 0 auto;
-    margin-top: 40px;
-    margin-bottom: 40px;
-    padding: 40px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* 제목 스타일 */
-  .event-register-container h4 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 40px;
-    color: #333;
-  }
-  
-  /* 폼 스타일 */
-  .event-register-container form {
-    display: grid;
-    gap: 20px;
-    grid-template-columns: 1fr;
-    grid-gap: 12px;
-    max-width: 100%;
-  }
-  
-  /* 각 입력 필드 스타일 */
-  .event-register-container input[type="text"],
-  .event-register-container input[type="file"],
-  .event-register-container input[type="datetime-local"],
-  .event-register-container select,
-  .event-register-container button[type="submit"] {
-    width: 450px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    margin-bottom: 10px;
-    transition: border-color 0.3s ease;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-  .event-register-container select,
-  .event-register-container input[type="datetime-local"],
-  .event-register-container button[type="submit"] {
-    width: 30%;
-  }
-  
-  .event-register-container input[type="text"]:focus,
-  .event-register-container input[type="file"]:focus,
-  .event-register-container input[type="datetime-local"]:focus,
-  .event-register-container select:focus {
-    border-color: #4caf50;
-    outline: none;
-  }
-  
-  .event-register-container button[type="submit"] {
-    background-color: #4caf50;
-    color: white;
-    padding: 14px;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .event-register-container button[type="submit"]:hover {
-    background-color: #45a049;
-  }
-  
-  .event-register-container button[type="submit"]:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  /* 설명 텍스트 */
-  .event-register-container small {
-    font-size: 14px;
-    color: #777;
-    margin-top: 5px;
-  }
-  
-  /* 각 폼 항목의 스타일 */
-  .event-register-container div {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .event-register-container label {
-    font-weight: bold;
-    font-size: 1rem;
-  }
-  
-  /* CKEditor 스타일 */
-  .event-register-container .ck-editor__editable {
-    min-width: 50%;
-    min-height: 200px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 12px;
-  }
+/* 제목 스타일 */
+.event-register-container h4 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 40px;
+  color: #333;
+}
 
-  
-  .event-register-container input[type="datetime-local"] {
-    padding: 10px;
-  }
-  
-  /* 작은 텍스트 설명 */
-  .event-register-container div > small {
-    font-size: 14px;
-    color: #888;
-  }
-  
+/* 폼 스타일 */
+.event-register-container form {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+  grid-gap: 12px;
+  max-width: 100%;
+}
+
+/* 각 입력 필드 스타일 */
+.event-register-container input[type="text"],
+.event-register-container input[type="file"],
+.event-register-container input[type="datetime-local"],
+.event-register-container select {
+  width: 450px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  transition: border-color 0.3s ease;
+}
+
+.event-register-container select,
+.event-register-container input[type="datetime-local"] {
+  width: 30%;
+}
+
+.event-register-container input[type="text"]:focus,
+.event-register-container input[type="file"]:focus,
+.event-register-container input[type="datetime-local"]:focus,
+.event-register-container select:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+/* 설명 텍스트 */
+.event-register-container small {
+  font-size: 14px;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* 각 폼 항목의 스타일 */
+.event-register-container div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.event-register-container label {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* CKEditor 스타일 */
+.event-register-container .ck-editor__editable {
+  min-width: 50%;
+  min-height: 200px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+
+.event-register-container input[type="datetime-local"] {
+  padding: 10px;
+}
+
+/* 작은 텍스트 설명 */
+.event-register-container div > small {
+  font-size: 14px;
+  color: #888;
+}
+
+/* 버튼들을 가로로 나열하는 컨테이너 */
+.event-register-container .button-container {
+  display: flex;                /* Flexbox로 버튼들을 가로로 배치 */
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-top: 10px;             /* 버튼들과 폼 사이의 간격 */
+  gap: 10px;
+}
+
+/* 버튼들에 추가 스타일 */
+#submitButton, #cancelButton {
+  padding: 14px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* 수정 버튼 스타일 */
+#submitButton {
+  background-color: #4caf50;
+  color: white;
+}
+
+#submitButton:hover {
+  background-color: #45a049;
+}
+
+/* 취소 버튼 스타일 */
+#cancelButton {
+  background-color: #f44336;
+  color: white;
+}
+
+#cancelButton:hover {
+  background-color: #e53935;
+}

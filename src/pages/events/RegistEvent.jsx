@@ -151,7 +151,9 @@ const EventRegister = () => {
             min={startDate}  // 종료일은 시작일 이후로만 선택 가능
           />
         </div>
-        <button type="submit">이벤트 등록</button>
+        <div className="button-container">
+          <button type="submit" id="submitButton">이벤트 등록</button>
+        </div>
       </form>
     </div>
   );
