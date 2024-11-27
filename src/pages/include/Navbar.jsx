@@ -9,7 +9,7 @@ const Navbar = () => {
   const handleLibraryUpdate = async () => {
     try {
       setLoading(true);  // 로딩 상태
-      const response = await axios.post(`${process.env.REACT_APP_SERVER}/library`); // POST 요청
+      const response = await axios.post(`${process.env.REACT_APP_SERVER}/library/JPA`); // POST 요청
 
       // 서버에서 응답 메시지 처리
       alert(response.data.message);
