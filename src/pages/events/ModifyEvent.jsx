@@ -99,7 +99,7 @@ const EventModifyForm = () => {
       <br/>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div>
-          <small>이벤트의 제목을 입력하세요.</small>
+        <label>이벤트 제목</label>
           <input
             type="text"
             name="title"
@@ -107,6 +107,7 @@ const EventModifyForm = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
+            disabled
           />
         </div>
         <div>
