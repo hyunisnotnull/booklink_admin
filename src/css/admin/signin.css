@@ -53,8 +53,24 @@ button {
     margin-bottom: 10px;
 }
 
-.btn_basic[type='submit'] {
+.btn_basic[type='submit'],
+.btn_basic[name='searchid'],
+.btn_basic[name='searchpw']{
     margin-top: 10px;
+    width: 115px;
+}
+
+.txt_basic[name='id'],
+.txt_basic[name='phone']{
+    margin-top: 10px;
+    width: 170px;
+}
+
+.txt_basic[name='id_idsearch']
+{
+    margin-top: 10px;
+    width: 330px;
+    text-align: center;
 }
 
 form {

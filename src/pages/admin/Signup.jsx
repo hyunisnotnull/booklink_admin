@@ -72,15 +72,17 @@ const Signup = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append("a_id", aId);
-        formData.append("a_pw", aPw);
-        formData.append("a_mail", aMail);
-        formData.append("a_phone", aPhone);
+        const data = {
+            a_id : aId,
+            a_pw : aPw,
+            a_mail : aMail,
+            a_phone : aPhone,
+        };
+        
 
         try{
             const url=`${process.env.REACT_APP_SERVER}/admin/signup`;
-            const res = await axios.post(url, formData);
+            const res = await axios.post(url, data);
             console.log('data---> ', res.data)
             if (res.data.a_ID !== null) {
                 navigate('/signin');
