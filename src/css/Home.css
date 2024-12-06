@@ -1,6 +1,8 @@
 .home {
   width: 1200px;
+  height: 580px;
   margin: 50px auto;
+  text-align: center;
 }
 
 .book-list {

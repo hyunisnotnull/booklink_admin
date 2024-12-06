@@ -11,6 +11,7 @@ import Google from './pages/admin/Google';
 import EventList from './pages/events/EventList';
 import EventRegister from './pages/events/RegistEvent';
 import EventModifyForm from './pages/events/ModifyEvent';
+import Stat from './pages/stats/Stat';
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/event" element={<EventList />} />
         <Route path="/event/register_event_form" element={<EventRegister />} />
         <Route path="/event/modify_event_form/:eventId" element={<EventModifyForm />} />
+        <Route path="/stat" element={<Stat />} />
       </Routes>
 
       <Footer />
