@@ -7,7 +7,7 @@ const Home = () => {
     <article>
         <div className="home">
             <div>
-                도서링크 관리자 페이지
+                <h1>도서링크 관리자 페이지</h1>
             </div>
         </div>
     </article>
