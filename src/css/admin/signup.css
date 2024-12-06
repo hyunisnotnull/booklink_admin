@@ -23,11 +23,7 @@ transition: border-color 0.3s;
     width: 350px;
 }
 
-input[name='u_phone'] {
-    width: 140px;
-}
-
-#user_zipcode {
+#admin_zipcode {
     width: 220px;
 }
 
