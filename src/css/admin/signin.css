@@ -57,19 +57,20 @@ button {
 .btn_basic[name='searchid'],
 .btn_basic[name='searchpw']{
     margin-top: 10px;
-    width: 115px;
+    width: 117px;
+}
+
+.txt_basic[name='phone']{
+    margin-top: 10px;
+    width: 220px;
 }
 
 .txt_basic[name='id'],
-.txt_basic[name='phone']{
-    margin-top: 10px;
-    width: 170px;
-}
-
-.txt_basic[name='id_idsearch']
+.txt_basic[name='id_idsearch'],
+.txt_basic[name='pw_pwsearch']
 {
     margin-top: 10px;
-    width: 330px;
+    width: 380px;
     text-align: center;
 }
 
