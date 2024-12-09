@@ -111,11 +111,12 @@ const Modify = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append("a_id", aId);
-        formData.append("a_pw", aPw);
-        formData.append("a_mail", aMail);
-        formData.append("a_phone", aPhone);
+        const formData = {
+            a_id: aId,
+            a_pw: aPw,
+            a_mail: aMail,
+            a_phone: aPhone,
+        }
 
         try{
             const url=`${process.env.REACT_APP_SERVER}/admin/modify`;

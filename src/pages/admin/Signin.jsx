@@ -17,6 +17,7 @@ const Signin = () => {
   const [pwModalOpen, setPwModalOpen] = useState(false);
   const [aPhone, setAPhone] = useState('');
   const [id, setId] = useState('');
+  const [pw, setPw] = useState('');
 
   const openIdModal = () => {
     setIdModalOpen(true);
@@ -33,6 +34,7 @@ const Signin = () => {
   const closePwModal = () => {
     setId('');
     setAPhone('');
+    setPw('');
     setPwModalOpen(false);
   };
 
@@ -79,7 +81,7 @@ const Signin = () => {
           setId(res.data.a_ID);
         } else {
 
-          alert('입력 데이터 오류!!')
+          alert('일치하는 데이터가 없습니다.')
           navigate('/signin');
         }
 
@@ -93,19 +95,19 @@ const Signin = () => {
     e.preventDefault();
 
     const data = {
+      a_id: id,
       a_phone : aPhone,
     };
     
     try{
-        const url=`${process.env.REACT_APP_SERVER}/admin/getid`;
+        const url=`${process.env.REACT_APP_SERVER}/admin/getpw`;
         const res = await axios.post(url, data, { withCredentials: true });
-        
-        console.log(res.data)
-        if (res.data.a_ID !== undefined) {
-          
+      
+        if (res.data.success) {
+          setPw(res.data.message);
         } else {
 
-          alert('입력 데이터 오류!!')
+          alert('일치하는 데이터가 없습니다.')
           navigate('/signin');
         }
 
@@ -168,6 +170,7 @@ const Signin = () => {
       <input name="id" type="text" className="txt_basic" value={id} onChange={idChangeHandler} placeholder="아이디를 입력하세요" />
       <input name="phone" type="text" className="txt_basic" value={aPhone} onChange={aPhoneChangeHandler} placeholder="전화번호를 입력하세요" />
       <button className="btn_basic" onClick={handleSearchPw}>찾기</button>
+      <input type="text" name="pw_pwsearch" value={pw} className="txt_basic" />
       </Modal>
       </div>
     </div>
