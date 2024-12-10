@@ -77,7 +77,7 @@ const Signin = () => {
         const url=`${process.env.REACT_APP_SERVER}/admin/getid`;
         const res = await axios.post(url, data, { withCredentials: true });
         
-        if (res.data.a_ID !== undefined) {
+        if (res.data.a_ID) {
           setId(res.data.a_ID);
         } else {
 
