@@ -1,0 +1,86 @@
+.stat-wrap {
+    width: 1200px;
+    min-height: 820px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.button-group button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-group button:hover {
+    background-color: #0056b3;
+}
+
+.button-group button:focus {
+    outline: none;
+    box-shadow: 0 0 5px #0056b3;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.controls label {
+    font-size: 1rem;
+    color: #555;
+    margin-right: 5px;
+}
+
+.controls select {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.controls select:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.react-apexcharts-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.charts {
+    margin: 0 auto;
+    width: 900px;
+    max-height: 600px;
+}
