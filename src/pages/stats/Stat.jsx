@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../css/Home.css';
 import ReactApexChart from 'react-apexcharts';
 import axios from 'axios';
+import '../../css/stats/stat.css'
 
 const Stat = () => {
     const [loading, setLoading] = useState(true);
@@ -12,15 +13,15 @@ const Stat = () => {
     const [gender, setGender] = useState('all');
     const [year, setYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState('all');
-    const [monthOptions, setMonthOptions] = useState([]);
     const [region, setRegion] = useState('all');
     const [regionOptions, setRegionOptions] = useState([]);
+
     const [chart1State, setChart1State] = useState({
         series: [],
         options: {
             chart: {
-                height: 350,
-                type: chartType,
+                height: 600,
+                type: 'line',
                 dropShadow: {
                 enabled: true,
                 color: '#000',
@@ -42,7 +43,12 @@ const Stat = () => {
             },
             title: {
                 text: '월별 독서량',
-                align: 'center'
+                align: 'center',
+                style: {
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    color: '#333',
+                },
             },
             grid: {
                 borderColor: '#e7e7e7',
@@ -80,7 +86,7 @@ const Stat = () => {
         options: {
             chart: {
                 type: 'bar',
-                height: 350,
+                height: 390,
             },
             plotOptions: {
                 bar: {
@@ -117,8 +123,13 @@ const Stat = () => {
                 categories: [],
             },
             title: {
-                text: '도서 찜 순위',
+                text: '도서 찜 순위 TOP 10',
                 align: 'center',
+                style: {
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    color: '#333',
+                },
             },
         },
     });
@@ -127,8 +138,14 @@ const Stat = () => {
         series: [],
         options: {
             chart: {
-                height: 390,
+                height: 600,
                 type: 'radialBar',
+                toolbar: {
+                    show: true,
+                    tools: {
+                        download: true,
+                    },
+                },
             },
             plotOptions: {
                 radialBar: {
@@ -150,9 +167,11 @@ const Stat = () => {
                         },
                         total: {
                             show: true,
-                            label: region === 'all' ? '전 지역' : region,
+                            label: '전 지역',
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            color: '#333',
                             formatter: function (w) {
-                                // 총합 계산 (필요 시 동적으로 변경 가능)
                                 return w.globals.seriesTotals.reduce((a, b) => a + b, 0); 
                             },
                         },
@@ -168,8 +187,8 @@ const Stat = () => {
                     },
                 },
             },
-            colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'], // 원하는 색상 설정
-            labels: [], // 데이터 통신으로 동적으로 추가될 부분
+            colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5', '#77B6EA'],
+            labels: [],
             responsive: [
                 {
                     breakpoint: 480,
@@ -181,8 +200,13 @@ const Stat = () => {
                 },
             ],
             title: {
-                text: '도서관 찜 순위', // 제목 설정
+                text: '도서관 찜 순위 TOP 5',
                 align: 'center',
+                style: {
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    color: '#333',
+                },
             },
         },
     });
@@ -196,6 +220,10 @@ const Stat = () => {
                         params: { ageGroup, year },
                     });
                     const { series, categories } = response.data;
+                    console.log('chart 1 :: ', response.data);
+
+                    // 고정된 categories와 빈 데이터 채우기
+                    const fixedCategories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
 
                     setChart1State((prevState) => ({
                         ...prevState,
@@ -233,8 +261,10 @@ const Stat = () => {
                         params: { ageGroup, year, month: selectedMonth, gender },
                     });
 
-                    const { series, categories, monthOptions: months } = response.data;
-                    setMonthOptions(months);
+                    const { series, categories } = response.data;
+
+                    console.log('chart 2 :: ', response.data);
+
                     setChart2State((prevState) => ({
                         ...prevState,
                         series: [
@@ -243,6 +273,7 @@ const Stat = () => {
                                 data: series[0].data,
                             },
                         ],
+                        categories,
                         options: {
                             ...prevState.options,
                             xaxis: {
@@ -272,9 +303,13 @@ const Stat = () => {
                         params: { ageGroup, year, month: selectedMonth, gender, region },
                     });
     
-                    const { series, labels, total, regions, monthOptions: months } = response.data;
-                    setMonthOptions(months);
-                    setRegionOptions(regions);
+                    const { series, labels, total, regions } = response.data;
+
+                    // 기존 옵션과 새 옵션 병합 및 중복 제거
+                    setRegionOptions((prevRegions) => {
+                        const uniqueRegions = new Set([...prevRegions, ...regions]);
+                        return Array.from(uniqueRegions);
+                    });
                     setChart3State((prevState) => ({
                         ...prevState,
                         series,
@@ -289,7 +324,8 @@ const Stat = () => {
                                         ...prevState.options.plotOptions.radialBar.dataLabels,
                                         total: {
                                             ...prevState.options.plotOptions.radialBar.dataLabels.total,
-                                            formatter: () => total, // 총합 설정
+                                            formatter: () => total,
+                                            label: region === 'all' ? '전 지역' : region,
                                         },
                                     },
                                 },
@@ -317,9 +353,6 @@ const Stat = () => {
         setYear(new Date().getFullYear());
     };
 
-    if (loading) return <div>로딩 중...</div>;
-    if (error) return <div>{error}</div>;
-
     return (
         <div className="stat-wrap">
             <h1>통계</h1>
@@ -336,7 +369,7 @@ const Stat = () => {
                     value={year}
                     onChange={(e) => setYear(Number(e.target.value))}
                 >
-                    {Array.from({ length: 3 }, (_, i) => (
+                    {Array.from({ length: 2 }, (_, i) => (
                         <option key={i} value={new Date().getFullYear() - i}>
                             {new Date().getFullYear() - i}
                         </option>
@@ -345,21 +378,28 @@ const Stat = () => {
 
                 {selectedChart !== 'chart1' && (
                     <>
-                        <label htmlFor="month" style={{ marginLeft: '15px' }}>월 선택: </label>
+                        <label htmlFor="month">월 선택: </label>
                         <select
                             id="month"
                             value={selectedMonth}
                             onChange={(e) => setSelectedMonth(e.target.value)}
                         >
                             <option value="all">전체</option>
-                            {monthOptions.map((month, index) => (
-                                <option key={index} value={month}>
-                                    {month}월
-                                </option>
-                            ))}
+                            <option value="01">1월</option>
+                            <option value="02">2월</option>
+                            <option value="03">3월</option>
+                            <option value="04">4월</option>
+                            <option value="05">5월</option>
+                            <option value="06">6월</option>
+                            <option value="07">7월</option>
+                            <option value="08">8월</option>
+                            <option value="09">9월</option>
+                            <option value="10">10월</option>
+                            <option value="11">11월</option>
+                            <option value="12">12월</option>
                         </select>
 
-                        <label htmlFor="gender" style={{ marginLeft: '15px' }}>성별 선택: </label>
+                        <label htmlFor="gender">성별 선택: </label>
                         <select
                             id="gender"
                             value={gender}
@@ -374,7 +414,7 @@ const Stat = () => {
 
                 {selectedChart === 'chart3' && (
                     <>
-                        <label htmlFor="region" style={{ marginLeft: '15px' }}>지역 선택: </label>
+                        <label htmlFor="region">지역 선택: </label>
                         <select
                             id="region"
                             value={region}
@@ -390,7 +430,7 @@ const Stat = () => {
                     </>
                 )}
 
-                <label htmlFor="ageGroup" style={{ marginLeft: '15px' }}>연령대 선택: </label>
+                <label htmlFor="ageGroup">연령대 선택: </label>
                 <select
                     id="ageGroup"
                     value={ageGroup}
@@ -407,7 +447,7 @@ const Stat = () => {
 
                 {selectedChart === 'chart1' && (
                     <>
-                        <label htmlFor="chartType" style={{ marginLeft: '15px' }}>차트 유형: </label>
+                        <label htmlFor="chartType">차트 유형: </label>
                         <select
                             id="chartType"
                             value={chartType}
@@ -420,33 +460,42 @@ const Stat = () => {
                     </>
                 )}
             </div>
-            {selectedChart === 'chart1' && (
-                <ReactApexChart
-                    options={chart1State.options}
-                    series={chart1State.series}
-                    type={chartType}
-                    height={400}
-                    width={550}
-                />
-            )}
-            {selectedChart === 'chart2' && (
-                <ReactApexChart
-                    options={chart2State.options}
-                    series={chart2State.series}
-                    type='bar'
-                    height={400}
-                    width={550}
-                />
-            )}
-            {selectedChart === 'chart3' && (
-                <ReactApexChart
-                    options={chart3State.options}
-                    series={chart3State.series}
-                    type='radialBar'
-                    height={400}
-                    width={550}
-                />
-            )}
+            <div className='charts'>
+                {selectedChart === 'chart1' && chart1State.series.some(s => s.data.some(d => d > 0)) ? (
+                    <ReactApexChart
+                        options={chart1State.options}
+                        series={chart1State.series}
+                        type={chartType}
+                    />
+                ) : selectedChart === 'chart1' ? (
+                    <div className="no-data">
+                        <p>선택된 옵션에 대한 데이터가 없습니다.</p>
+                    </div>
+                ) : null}
+                {selectedChart === 'chart2' && chart2State.categories?.length > 0 ? (
+                    <ReactApexChart
+                        options={chart2State.options}
+                        series={chart2State.series}
+                        type='bar'
+                    />
+                ) : selectedChart === 'chart2' ? (
+                    <div className="no-data">
+                        <p>선택된 옵션에 대한 데이터가 없습니다.</p>
+                    </div>
+                ) : null}
+                {selectedChart === 'chart3' && chart3State.series.length > 0 ? (
+                    <ReactApexChart
+                        options={chart3State.options}
+                        series={chart3State.series}
+                        type='radialBar'
+                        height={600}
+                    />
+                ) : selectedChart === 'chart3' ? (
+                    <div className="no-data">
+                        <p>선택된 옵션에 대한 데이터가 없습니다.</p>
+                    </div>
+                ) : null}
+            </div>
         </div>
     );
 };
