@@ -3,6 +3,9 @@ import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useJwt } from "react-jwt";
+import { jwtDecode } from "jwt-decode";
+import { useCookies } from 'react-cookie';
 import '../../css/events/RegistEvent.css';
 
 const EventModifyForm = () => {
@@ -19,6 +22,9 @@ const EventModifyForm = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [cookie] =  useCookies();
+  const { isExpired, decodedToken } = useJwt(cookie.token);
+
   const navigate = useNavigate();
 
   // 한국 시간
@@ -28,6 +34,12 @@ const EventModifyForm = () => {
 
   // 수정할 이벤트 데이터를 가져오기
   useEffect(() => {
+    if (!cookie.token || isExpired) {
+      alert('로그인 후 확인할 수 있습니다.');
+      navigate('/signin');
+      return;
+    }
+
     const fetchEventData = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_SERVER}/event/modify_event_form/${eventId}`);

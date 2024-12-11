@@ -8,7 +8,6 @@ import Modal from '../include/modal';
 
 
 const Signin = () => {
-  // const [uLoginId, setULoginId] = useState('');
   const [aId, setAId] = useState('');
   const [aPw, setAPw] = useState('');
   const [cookie, setCookie] =  useCookies();
@@ -151,7 +150,7 @@ const Signin = () => {
     
     <div id="sign_in_modal">
     <h2>로그인</h2>
-    <div>
+    <div className="sign_in_form">
       <input type="text" name="u_id"  className="txt_basic" value={aId} onChange={aIdChangeHandler} placeholder="아이디 입력하세요" /> 
       <br />
       <input name="u_pw" className="txt_basic" type="password" value={aPw} onChange={aPwChangeHandler} placeholder="비밀번호를 입력하세요" />
