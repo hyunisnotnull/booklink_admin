@@ -29,23 +29,25 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className="logo">
-        <a href='/'>
-          <h1>도서링크</h1> 
-        </a>
-      </div>
-      <div className="auth">
-        {!isExpired ?
-          <>
-          <a href='/modify'>회원수정</a>
-          <a href='#none' onClick={signOutClickHandler} >로그아웃</a>
-          </>
-          :
-          <>
-          <a href='/signin'>로그인</a>
-          <a href='/signup'>회원가입</a>
-          </>
-          }
+      <div className="header_wrap">
+        <div className="logo">
+          <a href='/'>
+            <h1>도서링크</h1> 
+          </a>
+        </div>
+        <div className="auth">
+          {!isExpired ?
+            <>
+            <a href='/modify'>회원수정</a>
+            <a href='#none' onClick={signOutClickHandler} >로그아웃</a>
+            </>
+            :
+            <>
+            <a href='/signin'>로그인</a>
+            <a href='/signup'>회원가입</a>
+            </>
+            }
+        </div>
       </div>
     </header>
   );

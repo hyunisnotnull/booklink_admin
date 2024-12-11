@@ -5,6 +5,10 @@
   text-align: center;
 }
 
+.home h1{
+  margin-bottom: 70px;
+}
+
 .book-list {
   display: flex;
   overflow: hidden; /* 초과된 아이템 숨기기 */

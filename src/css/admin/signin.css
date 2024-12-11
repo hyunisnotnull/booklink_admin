@@ -1,3 +1,18 @@
+#sign_in_modal {
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px auto;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    min-height: 450px;
+}
+
 h2 {
     margin-top: 20px;
 }
@@ -8,7 +23,7 @@ h2 {
 
 #sign_in_modal input {
 padding: 10px;
-margin-top: 10px;
+margin-top: 15px;
 font-size: 16px;
 border: 1px solid #ccc;
 border-radius: 4px;
@@ -18,21 +33,18 @@ cursor: pointer;
 transition: border-color 0.3s;
 }
 
-
-.address-group select {
-    margin-top: 10px;
+#sign_in_modal input[name='u_pw'] {
+    margin-bottom: 10px;
 }
+
 
 .txt_basic {
     width: 350px;
 }
 
-input[name='u_phone'] {
-    width: 140px;
-}
-
-#user_zipcode {
-    width: 220px;
+#sign_in_modal input[name='u_id'],
+#sign_in_modal input[name='u_pw'] {
+    width: 370px;
 }
 
 button {
@@ -46,34 +58,65 @@ button {
     transition: border-color 0.3s;
 }
 
-
-
 .btn_basic {
-    width: 180px;
     margin-bottom: 10px;
 }
 
 .btn_basic[type='submit'],
+.btn_basic[name='google'],
 .btn_basic[name='searchid'],
-.btn_basic[name='searchpw']{
-    margin-top: 10px;
-    width: 117px;
+.btn_basic[name='searchpw']
+{
+    width: 90px;
+    margin-top: 60px;
+}
+
+.btn_basic[name='google']
+{
+    height:43px;
 }
 
 .txt_basic[name='phone']{
     margin-top: 10px;
-    width: 220px;
+    width: 190px;
 }
 
-.txt_basic[name='id'],
 .txt_basic[name='id_idsearch'],
 .txt_basic[name='pw_pwsearch']
 {
     margin-top: 10px;
-    width: 380px;
+    width: 350px;
     text-align: center;
 }
 
-form {
-    margin-bottom: 10px;
+
+.sign_in_form {
+    margin-bottom: 20px;
+}
+
+.our-event-section-2 .slider {
+    justify-content: unset;
+    width: 100%;
+    display: block;
+}
+
+.our-event-section-2 .slider .book-list .book-items{
+    justify-content: unset;
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+}
+
+.our-event-section-2 .slider .book-item img {
+    width: 500px;
+    object-fit: contain;
+    height: 150px;
+}
+
+.our-event-section-2 .slider .book-item a {
+    display: inline;
+}
+
+.our-event-section-2 .slider-button {
+    display: none;
 }

@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { useJwt } from "react-jwt";
+import { jwtDecode } from "jwt-decode";
+import { useCookies } from 'react-cookie';
 import DOMPurify from 'dompurify';
 import '../../css/events/EventList.css';
 import Pagination from '../../comp/Pagination';
+
 
 const EventList = ({ sortOrder }) => {
   const [events, setEvents] = useState([]);
@@ -13,9 +17,18 @@ const EventList = ({ sortOrder }) => {
   const [currentPage, setCurrentPage] = useState(1); 
   const [eventsPerPage] = useState(5);  // 한페이지에 표시할 이벤트 수 
 
+  const [cookie] =  useCookies();
+  const { isExpired, decodedToken } = useJwt(cookie.token);
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!cookie.token || isExpired) {
+      alert('로그인 후 확인할 수 있습니다.');
+      navigate('/signin');
+      return;
+    }
+
     const fetchEvents = async () => {
       try {
         setLoading(true);

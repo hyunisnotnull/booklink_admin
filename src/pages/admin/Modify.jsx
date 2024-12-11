@@ -1,7 +1,6 @@
 import React , { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import DaumPostcode from 'react-daum-postcode';
 import { useJwt } from "react-jwt";
 import { useCookies } from 'react-cookie'; // useCookies import
 import { jwtDecode } from "jwt-decode";
@@ -21,35 +20,13 @@ const Modify = () => {
     const [aPhone, setAPhone] = useState('');
     const navigate = useNavigate();
 
-    // // 유효성 검사
-    // const validateInputs = () => {
-    //     const newErrors = {};
-    //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;    // @가 있어야 하고 앞, 뒤로 문자가 있어야 함
-    //     const pwRegex = /^.{6,}$/;                          // 6자리 이상
-    //     const nickRegex = /^[가-힣a-zA-Z0-9]{2,6}$/;        // 한글, 영어 대소문자, 숫자가 2 이상 6 이하
-    //     const phoneRegex = /^\d{3}-\d{4}-\d{4}$/;           // {}안에 숫자가 지정한 개수 만큼 있어야 함
-
-    //     if (!emailRegex.test(uId)) {
-    //         newErrors.uId = "올바른 이메일 주소를 입력하세요.";
-    //     }
-
-    //     if (!pwRegex.test(uPw)) {
-    //         newErrors.uPw = "비밀번호는 6자 이상이어야 합니다.";
-    //     }
-
-    //     if (!nickRegex.test(uNick)) {
-    //         newErrors.uNick = "닉네임은 2자 이상 6자 이하의 한u글, 영어 또는 숫자여야 합니다.";
-    //     }
-
-    //     if (!phoneRegex.test(uPhone)) {
-    //         newErrors.uPhone = "전화번호는 '000-0000-0000' 형식이어야 합니다.";
-    //     }
-        
-    //     setErrors(newErrors);
-    //     return Object.keys(newErrors).length === 0;
-    // }
-
     useEffect(() => {
+
+        if (!cookie.token || isExpired) {
+            alert('로그인 후 확인할 수 있습니다.');
+            navigate('/signin');
+            return;
+        }
 
         const fetchUserData = async () => {
 
@@ -183,7 +160,7 @@ const Modify = () => {
                 <input name="a_phone" className="txt_basic" type="text" value={aPhone} onChange={aPhoneChangeHandler} placeholder="휴대전화번호" />
 
                 <br />
-                <button type="submit" className="btn_basic" >수정</button>
+                <button type="submit" className="btn_basic" name="modify">수정</button>
                 <button onClick={deleteBtnClickHandler} className="btn_basic" >삭제</button>
                 </form>
             </div>
