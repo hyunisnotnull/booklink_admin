@@ -9,11 +9,11 @@ const Stat = () => {
     const [error, setError] = useState(null);
     const [selectedChart, setSelectedChart] = useState('chart1');
     const [chartType, setChartType] = useState('line');
-    const [ageGroup, setAgeGroup] = useState('all');
-    const [gender, setGender] = useState('all');
+    const [ageGroup, setAgeGroup] = useState('');
+    const [gender, setGender] = useState('');
     const [year, setYear] = useState(new Date().getFullYear());
-    const [selectedMonth, setSelectedMonth] = useState('all');
-    const [region, setRegion] = useState('all');
+    const [selectedMonth, setSelectedMonth] = useState('');
+    const [region, setRegion] = useState('');
     const [regionOptions, setRegionOptions] = useState([]);
 
     const [chart1State, setChart1State] = useState({
@@ -61,7 +61,7 @@ const Stat = () => {
                 size: 1
             },
             xaxis: {
-                categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                categories: [],
                 title: {
                 text: '월'
                 }
@@ -222,9 +222,6 @@ const Stat = () => {
                     const { series, categories } = response.data;
                     console.log('chart 1 :: ', response.data);
 
-                    // 고정된 categories와 빈 데이터 채우기
-                    const fixedCategories = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-
                     setChart1State((prevState) => ({
                         ...prevState,
                         series,
@@ -238,6 +235,7 @@ const Stat = () => {
                                 ...prevState.options.chart,
                                 type: chartType,
                             },
+                        
                         },
                     }));
                 } catch (err) {
@@ -299,10 +297,11 @@ const Stat = () => {
             const fetchChart3Data = async () => {
                 try {
                     setLoading(true);
+                  
                     const response = await axios.get(`${process.env.REACT_APP_SERVER}/stat/library_rank`, {
                         params: { ageGroup, year, month: selectedMonth, gender, region },
                     });
-    
+
                     const { series, labels, total, regions } = response.data;
 
                     // 기존 옵션과 새 옵션 병합 및 중복 제거
@@ -325,7 +324,7 @@ const Stat = () => {
                                         total: {
                                             ...prevState.options.plotOptions.radialBar.dataLabels.total,
                                             formatter: () => total,
-                                            label: region === 'all' ? '전 지역' : region,
+                                            label: region === '' ? '전 지역' : region,
                                         },
                                     },
                                 },
@@ -347,9 +346,9 @@ const Stat = () => {
     // 연령대 선택
     const handleChartSwitch = (chartType) => {
         setSelectedChart(chartType);
-        setSelectedMonth('all');
-        setAgeGroup('all');
-        setGender('all');
+        setSelectedMonth('');
+        setAgeGroup('');
+        setGender('');
         setYear(new Date().getFullYear());
     };
 
@@ -384,7 +383,7 @@ const Stat = () => {
                             value={selectedMonth}
                             onChange={(e) => setSelectedMonth(e.target.value)}
                         >
-                            <option value="all">전체</option>
+                            <option value="">전체</option>
                             <option value="01">1월</option>
                             <option value="02">2월</option>
                             <option value="03">3월</option>
@@ -405,9 +404,9 @@ const Stat = () => {
                             value={gender}
                             onChange={(e) => setGender(e.target.value)}
                         >
-                            <option value="all">전체</option>
+                            <option value="">전체</option>
                             <option value="M">남자</option>
-                            <option value="W">여자</option>
+                            <option value="F">여자</option>
                         </select>
                     </>
                 )}
@@ -420,7 +419,7 @@ const Stat = () => {
                             value={region}
                             onChange={(e) => setRegion(e.target.value)}
                         >
-                            <option value="all">전체</option>
+                            <option value="">전체</option>
                             {regionOptions.map((regionOption, index) => (
                                 <option key={index} value={regionOption}>
                                     {regionOption}
@@ -436,7 +435,7 @@ const Stat = () => {
                     value={ageGroup}
                     onChange={(e) => setAgeGroup(e.target.value)}
                 >
-                    <option value="all">전체</option>
+                    <option value="">전체</option>
                     <option value="10">10대</option>
                     <option value="20">20대</option>
                     <option value="30">30대</option>
