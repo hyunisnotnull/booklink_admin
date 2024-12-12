@@ -1,12 +1,26 @@
-import { Link } from 'react-router-dom'; 
-import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; 
+import React, { useState, useEffect } from 'react';
+import { useJwt } from "react-jwt";
+import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import '../../css/include/Navbar.css'; 
 
 const Navbar = () => {
   const [loading, setLoading] = useState(false);
+  const [cookie] =  useCookies();
+  const { decodedToken, isExpired } = useJwt(cookie.token);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  }, [isExpired, cookie.token, decodedToken]);
 
   const handleLibraryUpdate = async () => {
+    if (!cookie.token || isExpired) {
+      alert('로그인 후 업데이트 할 수 있습니다.');
+      navigate('/signin');
+      return;
+    }
+
     try {
       setLoading(true);  // 로딩 상태
       const response = await axios.post(`${process.env.REACT_APP_SERVER}/library/JPA`); // POST 요청
@@ -33,15 +47,21 @@ const Navbar = () => {
         <li className="nav-item">
           <Link to="/event">배너 관리</Link>
         </li>
+        {!isExpired ?
+        <>
         <li className="nav-item">
-        <a href="#none" onClick={handleLibraryUpdate} className="update-link" disabled={loading}>
-            {loading ? '업데이트 중...' : '도서관 업데이트'}
+          <a href="#none" onClick={handleLibraryUpdate} className="update-link" disabled={loading}>
+              {loading ? '업데이트 중...' : '도서관 업데이트'}
           </a>
         </li>
+        </>
+        :
+        <>
+        </>
+        }
       </ul>
     </nav>
   );
 };
 
 export default Navbar;
-
