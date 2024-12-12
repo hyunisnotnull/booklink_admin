@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import '../../css/Home.css';
+import { useNavigate } from 'react-router-dom';
+import { useJwt } from "react-jwt";
+import { jwtDecode } from "jwt-decode";
+import { useCookies } from 'react-cookie';
 import ReactApexChart from 'react-apexcharts';
 import axios from 'axios';
 import '../../css/stats/stat.css'
 
 const Stat = () => {
+    const [cookie] =  useCookies();
+    const { isExpired, decodedToken } = useJwt(cookie.token);
+    const navigate = useNavigate();
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedChart, setSelectedChart] = useState('chart1');
@@ -212,8 +219,78 @@ const Stat = () => {
     });
 
     useEffect(() => {
+        if (!cookie.token || isExpired) {
+            alert('로그인 후 확인할 수 있습니다.');
+            navigate('/signin');
+            return;
+          }
+
         if (selectedChart === 'chart1') {
             const fetchChart1Data = async () => {
+                setChart1State({
+                    series: [],
+                    options: {
+                        chart: {
+                            height: 600,
+                            type: 'line',
+                            dropShadow: {
+                            enabled: true,
+                            color: '#000',
+                            top: 18,
+                            left: 7,
+                            blur: 10,
+                            opacity: 0.5
+                            },
+                            zoom: {
+                            enabled: false
+                            },
+                        },
+                        colors: ['#77B6EA', '#ed477c'],
+                        dataLabels: {
+                            enabled: true,
+                        },
+                        stroke: {
+                            curve: 'smooth'
+                        },
+                        title: {
+                            text: '월별 독서량',
+                            align: 'center',
+                            style: {
+                                fontSize: '24px',
+                                fontWeight: 'bold',
+                                color: '#333',
+                            },
+                        },
+                        grid: {
+                            borderColor: '#e7e7e7',
+                            row: {
+                            colors: ['#f3f3f3', 'transparent'],
+                            opacity: 0.5
+                            },
+                        },
+                        markers: {
+                            size: 1
+                        },
+                        xaxis: {
+                            categories: [],
+                            title: {
+                            text: '월'
+                            }
+                        },
+                        yaxis: {
+                            title: {
+                            text: '독서량(권 수)'
+                            },
+                        },
+                        legend: {
+                            position: 'top',
+                            horizontalAlign: 'right',
+                            floating: true,
+                            offsetY: -25,
+                            offsetX: -5
+                        }
+                    },
+                });
                 try {
                     setLoading(true);
                     const response = await axios.get(`${process.env.REACT_APP_SERVER}/stat/book_read`, {
@@ -221,7 +298,7 @@ const Stat = () => {
                     });
                     const { series, categories } = response.data;
                     console.log('chart 1 :: ', response.data);
-
+                    
                     setChart1State((prevState) => ({
                         ...prevState,
                         series,
