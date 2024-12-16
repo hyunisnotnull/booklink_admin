@@ -15,9 +15,6 @@ const Header = () => {
   
   
   useEffect(() => {
-    console.log('isExpired', isExpired)
-    console.log('cookie', cookie)
-    console.log('decodedToken', decodedToken)
   }, [isExpired, cookie.token, decodedToken, navigate]);
   
   const signOutClickHandler = (e) => {

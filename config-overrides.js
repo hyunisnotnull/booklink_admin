@@ -15,7 +15,7 @@ module.exports = {
       ];
       babelLoader.options.plugins = [
         ...babelLoader.options.plugins,
-        // ['transform-remove-console', { exclude: ['error', 'warn'] }],
+        // ['transform-remove-console', { exclude: ['error', 'warn', 'log'] }],
         ['transform-remove-console', { exclude: [] }], // 모든 console 메서드 제거
       ];
     } else {
@@ -28,7 +28,7 @@ module.exports = {
             '@babel/preset-react', // JSX 변환을 위한 프리셋 추가
           ],
           plugins: [
-            // ['transform-remove-console', { exclude: ['error', 'warn'] }],
+            // ['transform-remove-console', { exclude: ['error', 'warn', 'log'] }],
             ['transform-remove-console', { exclude: [] }], // 모든 console 메서드 제거
           ],
         },
