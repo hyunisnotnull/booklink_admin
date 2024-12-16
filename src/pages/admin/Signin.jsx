@@ -121,8 +121,6 @@ const Signin = () => {
   const handleSubmit = async(e) => {
     e.preventDefault();
     
-
-
     const data = {
       u_id : aId,
       u_pw : aPw,
@@ -132,6 +130,10 @@ const Signin = () => {
         const url=`${process.env.REACT_APP_SERVER}/signinAdmin`;
         const res = await axios.post(url, data, { withCredentials: true });
         if (res.data.userId !== undefined) {
+          const authHeader = res.headers.get('Authorization');
+          const token = authHeader.split(' ')[1]; //공백으로 분리
+          setCookie('token',token);
+          
           navigate('/');
         } else {
 
